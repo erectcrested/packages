@@ -1,20 +1,31 @@
---- a/src/md5.h
-+++ b/src/md5.h
-@@ -28,6 +28,14 @@
- #define MD5Update MD5_Update
- #define MD5Final MD5_Final
+diff --git a/configure.in b/configure.in
+index dd54d73..c492120 100644
+--- a/configure.in
++++ b/configure.in
+@@ -363,7 +363,7 @@ AC_ARG_WITH([cyassl],
+  [AS_HELP_STRING([--with-cyassl], [enable support for cyassl])],[],[with_cyassl=no])
  
-+#elif HAVE_CYASSL
-+#include <cyassl/openssl/md5.h>
-+
-+#define MD5Init MD5_Init
-+#define MD5Update MD5_Update
-+#define MD5Final MD5_Final
-+
-+typedef struct CYASSL_MD5_CTX MD5_CTX;
- #else
+ AS_IF([test x"$with_cyassl" != xno],
+-  [AC_CHECK_LIB([cyassl], [CyaSSL_Init],
++  [AC_CHECK_LIB([cyassl], [wolfSSL_Init],
+               [AC_SUBST([LIBSSL], ["-lcyassl"])
+                AC_DEFINE([HAVE_CYASSL], [1],
+                          [Define if you have cyassl])
+diff --git a/src/ippool.c b/src/ippool.c
+index 9ec0504..d240eee 100644
+--- a/src/ippool.c
++++ b/src/ippool.c
+@@ -20,6 +20,8 @@
  
- struct MD5Context {
+ #include "chilli.h"
+ 
++#undef USED
++
+ /*#define _DEBUG_PRINT_ 1*/
+ 
+ const unsigned int IPPOOL_STATSIZE = 0x10000;
+diff --git a/src/md5.c b/src/md5.c
+index 93c71af..ae5acb5 100644
 --- a/src/md5.c
 +++ b/src/md5.c
 @@ -18,7 +18,7 @@
@@ -26,3 +37,24 @@
  
  void byteReverse(unsigned char *buf, size_t longs);
  
+diff --git a/src/md5.h b/src/md5.h
+index ec64045..7d1c355 100644
+--- a/src/md5.h
++++ b/src/md5.h
+@@ -28,6 +28,16 @@
+ #define MD5Update MD5_Update
+ #define MD5Final MD5_Final
+ 
++#elif HAVE_CYASSL
++
++#include <cyassl/openssl/md5.h>
++
++#define MD5Init MD5_Init
++#define MD5Update MD5_Update
++#define MD5Final MD5_Final
++
++#define MD5Context MD5_CTX
++
+ #else
+ 
+ struct MD5Context {
