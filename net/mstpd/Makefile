@@ -1,0 +1,54 @@
+#
+# Copyright (C) 2017 OpenWrt.org
+#
+# This is free software, licensed under the GNU General Public License v2.
+# See /LICENSE for more information.
+#
+
+include $(TOPDIR)/rules.mk
+
+PKG_NAME:=mstpd
+PKG_VERSION:=0.05
+PKG_RELEASE:=1
+
+PKG_SOURCE_URL:=https://github.com/mstpd/mstpd/archive/$(PKG_VERSION).tar.gz
+PKG_HASH:=979cb6aed735619b6058b63583ae0a655c76634beceb77d9a316203f4a6bdd53
+
+PKG_FIXUP:=autoreconf
+
+include $(INCLUDE_DIR)/package.mk
+
+define Package/mstpd
+  SECTION:=net
+  CATEGORY:=Network
+  TITLE:=Multiple Spanning Tree Protocol daemon
+  URL:=http://github.com/mstpd/mstpd
+  MAINTAINER:=Alexandru Ardelean <ardeleanalex@gmail.com>
+endef
+
+define Package/mstpd/description
+  Multiple Spanning Tree Protocol daemon.
+  Implements MSTP which is not implemented yet in the Linux kernel.
+endef
+
+define Package/mstpd/config
+  source "$(SOURCE)/Config.in"
+endef
+
+TARGET_CFLAGS += \
+	-DRTNL_RCV_BUFSIZE=$(CONFIG_MSTPD_RTNL_RCV_BUFSIZE) \
+	-DRTNL_SND_BUFSIZE=$(CONFIG_MSTPD_RTNL_SND_BUFSIZE)
+
+MAKE_VARS+=MODE=prod
+
+define Package/mstpd/install
+	$(INSTALL_DIR) $(1)/usr/sbin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/mstpd $(1)/usr/sbin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/mstpctl $(1)/usr/sbin
+	$(INSTALL_DIR) $(1)/etc/init.d/
+	$(INSTALL_BIN) ./files/etc/init.d/mstpd.init $(1)/etc/init.d/mstpd
+	$(INSTALL_DIR) $(1)/sbin
+	$(INSTALL_BIN) ./files/sbin/bridge-stp $(1)/sbin
+endef
+
+$(eval $(call BuildPackage,mstpd))
