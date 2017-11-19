@@ -1,0 +1,25 @@
+menu "Configuration"
+	depends on PACKAGE_dpdk
+
+choice
+	prompt "ARM64 Machine"
+	default armv8a
+
+config armv8a
+	bool "ARMv8"
+
+config dpaa
+	bool "DPAA"
+
+config dpaa2
+	bool "DPAA2"
+
+config thunderx
+	bool "thunderx"
+
+config xgene1
+	bool "xgene1"
+
+endchoice
+
+endmenu

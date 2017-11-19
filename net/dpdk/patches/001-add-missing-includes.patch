@@ -1,0 +1,51 @@
+diff --git a/app/test-pmd/testpmd.h b/app/test-pmd/testpmd.h
+index 1639d27..8c293ac 100644
+--- a/app/test-pmd/testpmd.h
++++ b/app/test-pmd/testpmd.h
+@@ -34,6 +34,8 @@
+ #ifndef _TESTPMD_H_
+ #define _TESTPMD_H_
+ 
++#include <sys/types.h>
++
+ #include <rte_pci.h>
+ #include <rte_bus_pci.h>
+ #include <rte_gro.h>
+diff --git a/drivers/net/enic/base/vnic_dev.h b/drivers/net/enic/base/vnic_dev.h
+index c9ca25b..3a1dcd0 100644
+--- a/drivers/net/enic/base/vnic_dev.h
++++ b/drivers/net/enic/base/vnic_dev.h
+@@ -35,6 +35,8 @@
+ #ifndef _VNIC_DEV_H_
+ #define _VNIC_DEV_H_
+ 
++#include <sys/types.h>
++
+ #include <rte_pci.h>
+ #include <rte_bus_pci.h>
+ 
+diff --git a/lib/librte_eal/linuxapp/eal/eal_hugepage_info.c b/lib/librte_eal/linuxapp/eal/eal_hugepage_info.c
+index 86e174f..5a105b7 100644
+--- a/lib/librte_eal/linuxapp/eal/eal_hugepage_info.c
++++ b/lib/librte_eal/linuxapp/eal/eal_hugepage_info.c
+@@ -44,6 +44,7 @@
+ #include <unistd.h>
+ #include <errno.h>
+ #include <sys/queue.h>
++#include <fcntl.h>
+ 
+ #include <rte_memory.h>
+ #include <rte_eal.h>
+diff --git a/lib/librte_eal/linuxapp/eal/eal_memory.c b/lib/librte_eal/linuxapp/eal/eal_memory.c
+index 16a181c..ab5e5c5 100644
+--- a/lib/librte_eal/linuxapp/eal/eal_memory.c
++++ b/lib/librte_eal/linuxapp/eal/eal_memory.c
+@@ -56,6 +56,8 @@
+ #include <numa.h>
+ #include <numaif.h>
+ #endif
++#include <fcntl.h>
++#include <sched.h>
+ 
+ #include <rte_log.h>
+ #include <rte_memory.h>

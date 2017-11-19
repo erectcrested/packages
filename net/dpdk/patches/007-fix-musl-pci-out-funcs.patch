@@ -1,0 +1,29 @@
+diff --git a/drivers/bus/pci/linux/pci_uio.c b/drivers/bus/pci/linux/pci_uio.c
+index 92b7f02..ec4e197 100644
+--- a/drivers/bus/pci/linux/pci_uio.c
++++ b/drivers/bus/pci/linux/pci_uio.c
+@@ -532,21 +532,21 @@ pci_uio_ioport_write(struct rte_pci_ioport *p,
+ 	for (s = data; len > 0; s += size, reg += size, len -= size) {
+ 		if (len >= 4) {
+ 			size = 4;
+-#if defined(RTE_ARCH_X86)
++#if 0
+ 			outl_p(*(const uint32_t *)s, reg);
+ #else
+ 			*(volatile uint32_t *)reg = *(const uint32_t *)s;
+ #endif
+ 		} else if (len >= 2) {
+ 			size = 2;
+-#if defined(RTE_ARCH_X86)
++#if 0
+ 			outw_p(*(const uint16_t *)s, reg);
+ #else
+ 			*(volatile uint16_t *)reg = *(const uint16_t *)s;
+ #endif
+ 		} else {
+ 			size = 1;
+-#if defined(RTE_ARCH_X86)
++#if 0
+ 			outb_p(*s, reg);
+ #else
+ 			*(volatile uint8_t *)reg = *s;

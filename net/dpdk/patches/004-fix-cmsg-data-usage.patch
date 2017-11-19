@@ -1,0 +1,17 @@
+diff --git a/lib/librte_eal/linuxapp/eal/eal_vfio_mp_sync.c b/lib/librte_eal/linuxapp/eal/eal_vfio_mp_sync.c
+index b53ed7e..5197a4c 100644
+--- a/lib/librte_eal/linuxapp/eal/eal_vfio_mp_sync.c
++++ b/lib/librte_eal/linuxapp/eal/eal_vfio_mp_sync.c
+@@ -73,10 +73,10 @@
+ 			(chdr).cmsg_len = CMSGLEN;\
+ 			(chdr).cmsg_level = SOL_SOCKET;\
+ 			(chdr).cmsg_type = SCM_RIGHTS;\
+-			memcpy((chdr).__cmsg_data, &(fd), sizeof(fd));\
++			memcpy(CMSG_DATA(&chdr), &(fd), sizeof(fd));\
+ 		} while (0)
+ #define CMSGHDR_TO_FD(chdr, fd) \
+-			memcpy(&(fd), (chdr).__cmsg_data, sizeof(fd))
++			memcpy(&(fd), CMSG_DATA(&chdr), sizeof(fd))
+ 
+ static pthread_t socket_thread;
+ static int mp_socket_fd;
